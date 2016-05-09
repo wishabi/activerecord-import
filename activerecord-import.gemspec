@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "activerecord-import"
-  s.version = "0.2.14.flipp"
+  s.version = "0.2.16.flipp"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Zach Dennis"]
-  s.date = "2012-08-30"
+  s.authors = ["Zach Dennis", "Daniel Orner"]
+  s.date = "2015-05-09"
   s.description = "Extraction of the ActiveRecord::Base#import functionality from ar-extensions for Rails 3 and beyond"
   s.email = "zach.dennis@gmail.com"
   s.extra_rdoc_files = [

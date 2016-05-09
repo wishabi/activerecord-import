@@ -166,7 +166,7 @@ class ActiveRecord::Base
     # * failed_instances - an array of objects that fails validation and were not committed to the database. An empty array if no validation is performed.
     # * num_inserts - the number of insert statements it took to import the data
     def import( *args )
-      options = { :validate=>true, :timestamps=>true }
+      options = { :validate=>true, :timestamps=>true, :max_records => 1000 }
       options.merge!( args.pop ) if args.last.is_a? Hash
 
       is_validating = options.delete( :validate )
@@ -279,6 +279,13 @@ class ActiveRecord::Base
     # information on +column_names+, +array_of_attributes_ and
     # +options+.
     def import_without_validations_or_callbacks( column_names, array_of_attributes, options={} )
+      if options[:max_records] && array_of_attributes.size > options[:max_records]
+        array_of_attributes.in_groups_of(options[:max_records]) do |group|
+          import_without_validations_or_callbacks(column_names, group.compact, options)
+        end
+        return
+      end
+
       columns = column_names.each_with_index.map do |name, i|
         column = columns_hash[name.to_s]
 
